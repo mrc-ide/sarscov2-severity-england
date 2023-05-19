@@ -1,0 +1,208 @@
+script: script.R
+
+parameters:
+  short_run:
+    default: false
+  deterministic:
+    default: false
+  assumptions:
+      default: "central"
+
+artefacts:
+  - data:
+      description: Paper numbers
+      filenames:
+        - paper_numbers.html
+        
+  - data:
+      description: Files for external reviews
+      filenames:
+        - outputs/parameters/proposal.csv
+        - outputs/parameters/prior.csv
+        - outputs/parameters/info.csv
+        - outputs/model_demography.rds
+        - regional_results/Rt_england.rds
+        - regional_results/Rt_all.rds
+        - outputs/aggregated_data.rds
+        - outputs/intrinsic_severity.csv
+        - outputs/national_severity.rds
+        
+  - data:
+      description: Files for forward simulation
+      filenames:
+        - outputs/combined.rds
+
+  - staticgraph:
+      description: regional fitting plots and projections for comparison
+      filenames:
+        - figs/beta.png
+        - figs/cumulative_attack_rate.png
+        - figs/data_fits.png
+        - figs/forest_plot_betas.png
+        - figs/forest_plot_misc.png
+        - figs/forest_plot_variants.png
+        - figs/forest_plot_tv_severity.png
+        - figs/incidence.png
+        - figs/incidence_per_1000.png
+        - figs/infections_per_strain.png
+        - figs/pillar2_all_ages.png
+        - figs/pillar2_over25.png
+        - figs/prevalence_react.png
+        - figs/prevalence_ons.png
+        - figs/Rt_eff_general.png
+        - figs/Rt_general.png
+        - figs/serology_euroimmun.png
+        - figs/serology_roche_n.png
+        - figs/status_effective_susceptible.png
+        - figs/status_infection.png
+        - figs/status_vaccine.png
+        - figs/variant_Wildtype_Alpha.png
+        - figs/variant_Alpha_Delta.png
+        - figs/variant_Delta_Omicron.png
+        - figs/mu_D.png
+        - figs/traceplot_east_of_england.png
+        - figs/traceplot_london.png
+        - figs/traceplot_midlands.png
+        - figs/traceplot_north_east_and_yorkshire.png
+        - figs/traceplot_north_west.png
+        - figs/traceplot_south_east.png
+        - figs/traceplot_south_west.png
+        - figs_by_age/pillar2_0_14.png
+        - figs_by_age/pillar2_15_24.png
+        - figs_by_age/pillar2_25_49.png
+        - figs_by_age/pillar2_50_64.png
+        - figs_by_age/pillar2_65_79.png
+        - figs_by_age/pillar2_80_plus.png
+        - figs_by_age/deaths_hosp_0_49.png
+        - figs_by_age/deaths_hosp_50_54.png
+        - figs_by_age/deaths_hosp_55_59.png
+        - figs_by_age/deaths_hosp_60_64.png
+        - figs_by_age/deaths_hosp_65_69.png
+        - figs_by_age/deaths_hosp_70_74.png
+        - figs_by_age/deaths_hosp_75_79.png
+        - figs_by_age/deaths_hosp_80_plus.png
+        - figs_by_age/deaths_comm_0_49.png
+        - figs_by_age/deaths_comm_50_54.png
+        - figs_by_age/deaths_comm_55_59.png
+        - figs_by_age/deaths_comm_60_64.png
+        - figs_by_age/deaths_comm_65_69.png
+        - figs_by_age/deaths_comm_70_74.png
+        - figs_by_age/deaths_comm_75_79.png
+        - figs_by_age/deaths_comm_80_plus.png
+        - figs_by_age/admissions_0_9.png
+        - figs_by_age/admissions_10_19.png
+        - figs_by_age/admissions_20_29.png
+        - figs_by_age/admissions_30_39.png
+        - figs_by_age/admissions_40_49.png
+        - figs_by_age/admissions_50_59.png
+        - figs_by_age/admissions_60_69.png
+        - figs_by_age/admissions_70_79.png
+        - figs_by_age/admissions_80_plus.png
+        - figs_by_age/react_5_24.png
+        - figs_by_age/react_25_34.png
+        - figs_by_age/react_35_44.png
+        - figs_by_age/react_45_54.png
+        - figs_by_age/react_55_64.png
+        - figs_by_age/react_65_plus.png
+        - zoomed_view/regions.png
+        - zoomed_view/prevalence_ons.png
+        - zoomed_view/prevalence_react.png
+        - zoomed_view/pillar2_over25.png
+        # Main paper plots
+        - paper_plots/paper_figure_1.png
+        - paper_plots/paper_figure_2.png
+        - paper_plots/suppl_age_heatmaps.png
+        - paper_plots/suppl_compare_demography.png
+        - paper_plots/suppl_emergence_demography.png
+        - paper_plots/suppl_compare_hfr.png
+        - paper_plots/suppl_sev_winter_20_21.png
+        - paper_plots/suppl_regional_intrinsic.png
+        - paper_plots/suppl_deaths_hosp_age.png
+        - paper_plots/suppl_deaths_comm_age.png
+        - paper_plots/suppl_hosp_adm_age.png
+        - paper_plots/suppl_inf_prev_age.png
+        - paper_plots/suppl_pillar2_age.png
+        - paper_plots/suppl_admissions_vacc.png
+        - paper_plots/suppl_deaths_vacc.png
+        
+
+packages:
+  - sircovid
+  - spimalot
+  - dplyr
+  - tidyr
+  - ggplot2
+  - data.table
+  - jtools
+  - patchwork
+  - reshape2
+  - DescTools
+  - ggrepel
+  - stringr
+  - lubridate
+  - ggtext
+  - car
+  
+sources:
+  - support_paper_plots.R
+  - support_data.R
+  - supplement_plots.R
+  - plot_mu_D.R
+  
+resources:
+  - paper_numbers.Rmd
+
+global_resources:
+  global_util.R: rtm_inference/util_new.R
+  
+depends:
+ - severity_fits:
+     id: latest(parameter:region == "london" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/london/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_london.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_london_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "east_of_england" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/east_of_england/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_east_of_england.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_east_of_england_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "midlands" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/midlands/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_midlands.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_midlands_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "north_east_and_yorkshire" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/north_east_and_yorkshire/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_north_east_and_yorkshire.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_north_east_and_yorkshire_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "north_west" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/north_west/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_north_west.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_north_west_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "south_east" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/south_east/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_south_east.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_south_east_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ - severity_fits:
+     id: latest(parameter:region == "south_west" && parameter:assumptions == assumptions && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        regional_results/south_west/fit.rds: outputs/fit.rds
+        regional_figs/pmcmc_traceplots_south_west.pdf: outputs/pmcmc_traceplots.pdf
+        regional_figs/multipage/pmcmc_traceplots_south_west_separate.pdf: outputs/pmcmc_traceplots_separate.pdf
+ 
+ - severity_parsed_data:
+     id: latest
+     use:
+        severity_data.csv: outputs/severity_data.csv
+        hfr_week.csv: outputs/hfr_week.csv
+        england_region_data.csv: outputs/england_region_data.csv
+        outcomes_vacc_status.csv: outputs/outcomes_vacc_status.csv

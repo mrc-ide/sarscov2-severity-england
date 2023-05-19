@@ -1,0 +1,10 @@
+Imports:
+  orderly,
+  sircovid,
+  spimalot
+Remotes:
+  mrc-ide/dust@v0.13.2
+  mrc-ide/mcstate@v0.9.14,
+  mrc-ide/sircovid@v0.14.11,
+  mrc-ide/spimalot@v0.8.24,
+  vimc/orderly@v1.5.1

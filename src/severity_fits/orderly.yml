@@ -1,0 +1,57 @@
+script: script.R
+## assumptions - Different assumptions used are central/pessimistic/optimistic scenarios. 
+
+parameters:
+    region: ~
+    deterministic:
+      default: false
+    short_run:
+      default: false
+    assumptions:
+      default: "central"
+
+artefacts:
+## The outcome of the parent fitting task.
+## fit.rds – outcome of the fit process which includes samples, rt values, 
+ #fitted parameters, etc.
+
+  - staticgraph:
+      description: pMCMC trace plots
+      filenames:
+        - outputs/pmcmc_traceplots.pdf
+        
+  - staticgraph:
+      description: pMCMC trace plots multipage
+      filenames:
+        - outputs/pmcmc_traceplots_separate.pdf
+  - data:
+      description: PMCMC results for combined task
+      filenames:
+        - outputs/fit.rds
+
+global_resources:
+  global_util.R: rtm_inference/util_new.R
+
+sources:
+  - data.R
+  
+packages:
+  - sircovid
+  - spimalot
+  - tidyr
+
+depends:
+  severity_parsed_data:
+    id: latest
+    use:
+      data/england_region_data.csv: outputs/england_region_data.csv
+      data/serology.csv: outputs/serology_for_inference.csv
+
+  severity_parameters:
+    id: latest(parameter:assumptions == assumptions && parameter:deterministic == deterministic)
+    use:
+      parameters/base.rds: parameters_base.rds
+      parameters/info.csv: parameters_info.csv
+      parameters/prior.csv: parameters_prior.csv
+      parameters/proposal.csv: parameters_proposal.csv
+      parameters/transform.R: parameters_transform.R

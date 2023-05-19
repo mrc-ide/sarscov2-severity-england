@@ -1,0 +1,103 @@
+script: script.R
+
+parameters:
+  short_run:
+    default: false
+  deterministic:
+    default: false
+
+artefacts:
+  - data:
+      description: Files for external reviews
+      filenames:
+        # - outputs/results_table.csv
+
+  - staticgraph:
+      description: regional fitting plots and projections for comparison
+      filenames:
+        # Sensitivity analysis plots
+        - outputs/national_ve_scenarios.png
+        - outputs/national_crim_scenarios.png
+        - outputs/national_other_scenarios.png
+        
+packages:
+  - dplyr
+  - tidyr
+  - ggplot2
+  - patchwork
+  - stringr
+  - purrr
+  
+sources:
+  - support.R
+  - util.R
+  
+depends:
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "central" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_central.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "fixed_si_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_fixed_si_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "fixed_si_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_fixed_si_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "booster_ve_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_booster_ve_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "booster_ve_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_booster_ve_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "alpha_ve_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_alpha_ve_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "alpha_ve_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_alpha_ve_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "delta_ve_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_delta_ve_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "delta_ve_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_delta_ve_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_death_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_death_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_death_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_death_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_hospi_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_hospi_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_hospi_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_hospi_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_infect_high" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_infect_high.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "crim_infect_low" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_crim_infect_low.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "mu_d_winter" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_mu_d_winter.rds: outputs/national_severity.rds
+ - severity_fits_combined:
+     id: latest(parameter:assumptions == "mu_d_summer" && parameter:short_run == short_run && parameter:deterministic == deterministic)
+     use:
+        input/national_sev_mu_d_summer.rds: outputs/national_severity.rds

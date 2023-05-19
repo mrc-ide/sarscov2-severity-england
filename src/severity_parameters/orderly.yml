@@ -1,0 +1,56 @@
+script: script.R
+
+parameters:
+  assumptions:
+    default: "central"
+  deterministic:
+    default: false
+  
+artefacts:
+  - data:
+      description: fitted hyperparameters for priors
+      filenames:
+        - parameters_base.rds
+        - parameters_info.csv
+        - parameters_prior.csv
+        - parameters_proposal.csv
+        - parameters_transform.R
+  - staticgraph:
+      description: supplementary figures
+      filenames:
+        - fig_sup_vacc_age.png
+
+packages:
+  - sircovid
+  - spimalot
+  - tidyr
+  - dplyr
+  - forcats
+  - magrittr
+  - ggplot2
+  - scales
+
+sources:
+  - R/support.R
+  - R/priors.R
+  - R/baseline.R
+  - R/transform.R
+  - R/vaccine.R
+
+resources:
+  - pars
+  - data/vaccine_efficacy_alpha.csv
+  - data/vaccine_efficacy_delta.csv
+  - data/vaccine_efficacy_omicron.csv
+  - data/vaccine_uptake.csv
+  - data/support_severity.csv
+
+depends:
+  - severity_parsed_data:
+      id: latest
+      use:
+        data_vaccination.csv: outputs/data_vaccination.csv
+        weighted_prior_ranges.csv: outputs/weighted_prior_ranges.csv
+
+global_resources:
+  global_util.R: rtm_inference/util_new.R
