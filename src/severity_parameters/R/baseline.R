@@ -144,9 +144,12 @@ create_baseline <- function(region, date, restart_date,
   severity_cross_multiplier_delta <- 1 - 0.85
   
   # Hospitalisation & death by Omicron
+  # Nyberg et al. Lancet 2022; 399: 1303–12, reports below values as HR
+  # conditional on a positive test, unvaccinated status and documented prior
+  # infection with historic variant. Respective SA use 95%CI from same paper.
   severity_cross_multiplier_omicron <- list(
-    rel_p_hosp_if_sympt = 1 - 0.55,
-    rel_p_death = 1 - 0.18
+    rel_p_hosp_if_sympt = 0.55,
+    rel_p_death = 0.18 / 0.55
   )
   
   # Relative duration of SI and PCR positivity (compared to Wildtype)
@@ -156,6 +159,9 @@ create_baseline <- function(region, date, restart_date,
   rel_si_delta <- 0.87
   rel_si_omicron <- 0.75
   
+  
+  # Note that cross_immunity against infection parameters are actual cross-
+  # immunity, whereas death and hospitalisation are relative severity parameters.
   if (assumptions == "crim_infect_high") {
     
     cross_immunity_omicron <- 0.35
@@ -164,21 +170,21 @@ create_baseline <- function(region, date, restart_date,
     
     cross_immunity_omicron <- 0.20
   
-  } else if (assumptions == "crim_death_high") {
-    
-    severity_cross_multiplier_omicron$rel_p_death <- 1 - 0.57
-    
   } else if (assumptions == "crim_death_low") {
     
-    severity_cross_multiplier_omicron$rel_p_death <- 1 - 0.06
+    severity_cross_multiplier_omicron$rel_p_death <- 0.57 / 0.63
     
-  } else if (assumptions == "crim_hospi_high") {
+  } else if (assumptions == "crim_death_high") {
     
-    severity_cross_multiplier_omicron$rel_p_hosp_if_sympt <- 1 - 0.63
+    severity_cross_multiplier_omicron$rel_p_death <- 0.06 / 0.48
     
   } else if (assumptions == "crim_hospi_low") {
     
-    severity_cross_multiplier_omicron$rel_p_hosp_if_sympt <- 1 - 0.48
+    severity_cross_multiplier_omicron$rel_p_hosp_if_sympt <- 0.63
+    
+  } else if (assumptions == "crim_hospi_high") {
+    
+    severity_cross_multiplier_omicron$rel_p_hosp_if_sympt <- 0.48
     
   } else if (assumptions == "fixed_si_high") {
     

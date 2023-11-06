@@ -363,7 +363,8 @@ make_transform <- function(baseline) {
         strain_rel_p_hosp_if_sympt <-
           pars$rel_p_H_alpha *
           c(1, pars$rel_p_H_delta, 
-            pars$rel_p_H_delta * baseline$severity_cross_multiplier_delta, 1)
+            pars$rel_p_H_delta * baseline$severity_cross_multiplier_delta,
+            baseline$severity_cross_multiplier_alpha)
         strain_rel_p_icu <-
           pars$rel_p_ICU_alpha *
           c(1, pars$rel_p_ICU_delta, pars$rel_p_ICU_delta, 1)
